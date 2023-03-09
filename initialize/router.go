@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-web/handler"
+	"go-web/routes"
 )
 
 func Router() *gin.Engine {
@@ -19,9 +19,10 @@ func Router() *gin.Engine {
 	// 开放路由组
 	publicGroup := baseGroup.Group("/public")
 	{
-		// 测试路由
-		publicGroup.GET("/ping", handler.Ping)
+		routes.Public(publicGroup)
 	}
+
+	// 其它路由组
 
 	// 返回路由引擎
 	return r
