@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
+	"go-web/initialize"
 	"log"
 	"net/http"
 	"os"
@@ -11,12 +11,8 @@ import (
 )
 
 func main() {
-	router := gin.Default()
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	// 路由初始化
+	router := initialize.Router()
 
 	// 配置服务启动参数
 	server := &http.Server{
