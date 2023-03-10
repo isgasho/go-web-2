@@ -1,5 +1,7 @@
 # 系统配置
 system:
+  # 服务命令
+  service-name: gin-web
   # 运行端口
   port: 8000
   # 运行模式，支持 debug 和 release
@@ -8,3 +10,20 @@ system:
   api-prefix: api
   # API 版本
   api-version: v1
+
+# 日志配置
+log:
+  # 日志等级，参考 zapcore.Level（-1<=level<=5，-1 / DEBUG）
+  level: -1
+  # 是否输出颜色
+  colorful: true
+  # 日志路径
+  path: logs
+  # 日志大小，M
+  max-size: 100
+  # 日志备份数量
+  max-backups: 10
+  # 日志保留时间，天
+  max-age: 30
+  # 是否压缩
+  compress: true

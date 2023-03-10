@@ -18,8 +18,8 @@ func Router() *gin.Engine {
 	// 创建默认路由组
 	baseGroup := r.Group(fmt.Sprintf("/%s/%s", common.Config.System.ApiPrefix, common.Config.System.ApiVersion))
 
-	// 开放路由组
-	publicGroup := baseGroup.Group("/public")
+	// 开放路由组，不需要任何认证鉴权
+	publicGroup := baseGroup.Group("/")
 	{
 		routes.Public(publicGroup)
 	}

@@ -24,6 +24,8 @@ var fs embed.FS
 func main() {
 	// 配置初始化
 	initialize.Config(fs)
+	// 日志初始化
+	initialize.Logger()
 	// 路由初始化
 	router := initialize.Router()
 
@@ -45,14 +47,14 @@ func main() {
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
-	log.Println("服务即将开始关闭...")
+	common.Logger.Warnln("服务即将开始关闭...")
 
 	// 等待 5 秒处理，然后停止服务
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	err := server.Shutdown(ctx)
 	if err != nil {
-		log.Fatal("服务停止异常：", err.Error())
+		common.Logger.Errorln("服务停止异常：", err.Error())
 	}
-	log.Println("服务关闭完成")
+	common.Logger.Info("服务关闭完成！")
 }
