@@ -1,6 +1,9 @@
 package response
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 // 响应状态码
 const (
@@ -38,9 +41,9 @@ var CustomMessage = map[int]string{
 	UserDisable:         UserDisableMessage,
 }
 
-// JSON 封装 JSON 响应方法
-func JSON(ctx *gin.Context, code int, resp interface{}) {
-	ctx.JSON(code, resp)
+// JSON 封装 JSON 响应方法，状态码通过返回的数据给定
+func JSON(ctx *gin.Context, resp interface{}) {
+	ctx.JSON(http.StatusOK, resp)
 }
 
 // ResponseInfo 响应数据统一格式

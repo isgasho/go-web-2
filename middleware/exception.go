@@ -17,7 +17,7 @@ func Exception(ctx *gin.Context) {
 			resp, ok := err.(response.ResponseInfo)
 			if ok {
 				// 如果是响应数据抛出的异常
-				response.JSON(ctx, response.OK, resp)
+				response.JSON(ctx, resp)
 				ctx.Abort()
 				return
 			}
@@ -33,7 +33,8 @@ func Exception(ctx *gin.Context) {
 				Data:    map[string]interface{}{},
 			}
 
-			response.JSON(ctx, response.OK, resp)
+			// 响应系统异常
+			response.JSON(ctx, resp)
 			ctx.Abort()
 			return
 		}
