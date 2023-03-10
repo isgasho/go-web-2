@@ -18,6 +18,8 @@ func Router() *gin.Engine {
 
 	// 访问日志中间件
 	r.Use(middleware.AccessLog)
+	// 跨域中间件
+	r.Use(middleware.Cors)
 
 	// 创建默认路由组
 	baseGroup := r.Group(fmt.Sprintf("/%s/%s", common.Config.System.ApiPrefix, common.Config.System.ApiVersion))

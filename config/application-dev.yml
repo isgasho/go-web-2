@@ -16,7 +16,7 @@ log:
   # 日志等级，参考 zapcore.Level（-1<=level<=5，-1 / DEBUG）
   level: -1
   # 是否输出颜色
-  colorful: true
+  colorful: false
   # 日志路径
   path: logs
   # 日志大小，M
