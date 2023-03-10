@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"go-web/common"
+	"go-web/middleware"
 	"go-web/routes"
 )
 
@@ -14,6 +15,9 @@ func Router() *gin.Engine {
 
 	// 创建不带中间件的路由
 	r := gin.New()
+
+	// 访问日志中间件
+	r.Use(middleware.AccessLog)
 
 	// 创建默认路由组
 	baseGroup := r.Group(fmt.Sprintf("/%s/%s", common.Config.System.ApiPrefix, common.Config.System.ApiVersion))
