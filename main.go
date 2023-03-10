@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"embed"
+	"fmt"
+	"go-web/common"
 	"go-web/initialize"
 	"log"
 	"net/http"
@@ -10,13 +13,23 @@ import (
 	"time"
 )
 
+/*
+embed 用法参考：https://blog.csdn.net/wan212000/article/details/127264475
+这里指定 embed 读取 config 目录下的所有文件
+*/
+
+//go:embed config/*
+var fs embed.FS
+
 func main() {
+	// 配置初始化
+	initialize.Config(fs)
 	// 路由初始化
 	router := initialize.Router()
 
 	// 配置服务启动参数
 	server := &http.Server{
-		Addr:    ":8000",
+		Addr:    fmt.Sprintf(":%d", common.Config.System.Port),
 		Handler: router,
 	}
 

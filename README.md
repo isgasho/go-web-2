@@ -7,8 +7,8 @@
 #### 开发依赖
 
 ```bash
-# Gin：Web 框架
+# gin：Web 框架
 go get -u github.com/gin-gonic/gin
-# Viper：YAML 配置文件读取
+# viper：YAML 配置文件读取
 go get -u github.com/spf13/viper
 ```

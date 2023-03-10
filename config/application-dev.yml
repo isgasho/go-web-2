@@ -1,0 +1,10 @@
+# 系统配置
+system:
+  # 运行端口
+  port: 8000
+  # 运行模式，支持 debug 和 release
+  mode: debug
+  # API 前缀
+  api-prefix: api
+  # API 版本
+  api-version: v1
