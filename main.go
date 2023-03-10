@@ -26,6 +26,8 @@ func main() {
 	initialize.Config(fs)
 	// 日志初始化
 	initialize.Logger()
+	// 初始化数据库连接
+	initialize.Mysql()
 	// 路由初始化
 	router := initialize.Router()
 

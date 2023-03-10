@@ -6,6 +6,7 @@ import "go.uber.org/zap/zapcore"
 type Configuration struct {
 	System SystemConfiguration `mapstructure:"system" json:"system"`
 	Log    LogConfiguration    `mapstructure:"log" json:"log"`
+	Mysql  MysqlConfiguration  `mapstructure:"mysql" json:"mysql"`
 }
 
 // SystemConfiguration 系统配置
@@ -26,4 +27,22 @@ type LogConfiguration struct {
 	MaxBackups int           `mapstructure:"max-backups" json:"max-backups"`
 	MaxAge     int           `mapstructure:"max-age" json:"max-age"`
 	Compress   bool          `mapstructure:"compress" json:"compress"`
+}
+
+// MysqlConfiguration MySQL 配置
+type MysqlConfiguration struct {
+	Host               string `mapstructure:"host" json:"host"`
+	Port               string `mapstructure:"port" json:"port"`
+	Database           string `mapstructure:"database" json:"database"`
+	Username           string `mapstructure:"username" json:"username"`
+	Password           string `mapstructure:"password" json:"password"`
+	Charset            string `mapstructure:"charset" json:"charset"`
+	Collation          string `mapstructure:"collation" json:"collation"`
+	TablePrefix        string `mapstructure:"table-prefix" json:"table-prefix"`
+	Query              string `mapstructure:"query" json:"query"`
+	MaxIdleConnections int    `mapstructure:"max-idle-connections" json:"max-idle-connections"`
+	MaxOpenConnections int    `mapstructure:"max-open-connections" json:"max-open-connections"`
+	MaxIdleTime        int    `mapstructure:"max-idle-time" json:"max-idle-time"`
+	LogMode            bool   `mapstructure:"log-mode" json:"log-mode"`
+	LogLevel           int    `mapstructure:"log-level" json:"log-level"`
 }

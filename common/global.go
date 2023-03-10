@@ -1,11 +1,15 @@
 package common
 
-import "go.uber.org/zap"
+import (
+	"go.uber.org/zap"
+	"gorm.io/gorm"
+)
 
 // 全局变量
 var (
 	Config Configuration      // 配置
 	Logger *zap.SugaredLogger // 日志输出
+	DB     *gorm.DB           // 数据库连接
 )
 
 // 时间格式化
