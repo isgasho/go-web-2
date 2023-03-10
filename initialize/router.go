@@ -20,7 +20,8 @@ func Router() *gin.Engine {
 	r.Use(middleware.AccessLog)
 	// 跨域中间件
 	r.Use(middleware.Cors)
-
+	// 异常捕获中间件
+	r.Use(middleware.Exception)
 	// 创建默认路由组
 	baseGroup := r.Group(fmt.Sprintf("/%s/%s", common.Config.System.ApiPrefix, common.Config.System.ApiVersion))
 

@@ -52,59 +52,51 @@ type ResponseInfo struct {
 }
 
 // Result 生成响应格式的数据
-func Result(code int, status bool, data interface{}) (resp ResponseInfo) {
-	resp = ResponseInfo{
+func Result(code int, status bool, data interface{}) {
+	panic(ResponseInfo{
 		Code:    code,
 		Status:  status,
 		Message: CustomMessage[code],
 		Data:    data,
-	}
-	return
+	})
 }
 
 // ResultWithMessage 生成自定义 message 的响应数据
-func ResultWithMessage(code int, status bool, message string, data interface{}) (resp ResponseInfo) {
-	resp = ResponseInfo{
+func ResultWithMessage(code int, status bool, message string, data interface{}) {
+	panic(ResponseInfo{
 		Code:    code,
 		Status:  status,
 		Message: message,
 		Data:    data,
-	}
-	return
+	})
 }
 
 // Success 成功的响应
-func Success() (resp ResponseInfo) {
-	resp = Result(OK, true, map[string]interface{}{})
-	return
+func Success() {
+	Result(OK, true, map[string]interface{}{})
 }
 
 // SuccessWithData 成功的响应，带数据
-func SuccessWithData(data interface{}) (resp ResponseInfo) {
-	resp = Result(OK, true, data)
-	return
+func SuccessWithData(data interface{}) {
+	Result(OK, true, data)
 }
 
 // Failed 失败的响应
-func Failed() (resp ResponseInfo) {
-	resp = Result(NotOK, true, map[string]interface{}{})
-	return
+func Failed() {
+	Result(NotOK, true, map[string]interface{}{})
 }
 
 // FailedWithCode 失败的响应，带状态码
-func FailedWithCode(code int) (resp ResponseInfo) {
-	resp = Result(code, true, map[string]interface{}{})
-	return
+func FailedWithCode(code int) {
+	Result(code, true, map[string]interface{}{})
 }
 
 // FailedWithMessage 失败的响应，带消息提示
-func FailedWithMessage(message string) (resp ResponseInfo) {
-	resp = ResultWithMessage(NotOK, true, message, map[string]interface{}{})
-	return
+func FailedWithMessage(message string) {
+	ResultWithMessage(NotOK, true, message, map[string]interface{}{})
 }
 
 // FailedWithCodeAndMessage 失败的响应，带状态码和消息提示
-func FailedWithCodeAndMessage(code int, message string) (resp ResponseInfo) {
-	resp = ResultWithMessage(code, true, message, map[string]interface{}{})
-	return
+func FailedWithCodeAndMessage(code int, message string) {
+	ResultWithMessage(code, true, message, map[string]interface{}{})
 }
