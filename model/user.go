@@ -19,4 +19,7 @@ type User struct {
 	Locked       *uint           `gorm:"type:tinyint(1);default:0;comment:锁定状态(0: 正常, 1: 锁定)" json:"locked"`
 	LockExpire   int64           `gorm:"comment:锁定过期时间" json:"lockExpire"`
 	WrongTimes   int             `gorm:"comment:用户登录失败次数" json:"wrongTimes"`
+	// 角色绑定
+	RoleId uint `gorm:"comment:角色Id" json:"roleId"`
+	Role   Role `gorm:"foreignKey:RoleId" json:"role"`
 }

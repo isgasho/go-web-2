@@ -28,7 +28,7 @@ func Mysql() {
 	)
 
 	// 打印数据库连接
-	log.Println("打开 MySQL 链接：", dsnLogStr)
+	//log.Println("打开 MySQL 链接：", dsnLogStr)
 
 	// 真正连接串
 	dsn := strings.Replace(dsnLogStr, "******", common.Config.Mysql.Password, 1)
@@ -68,9 +68,10 @@ func Mysql() {
 
 // AutoMigrate 表同步
 func AutoMigrate() {
-	log.Println("开始同步数据库表结构...")
 	err := common.DB.AutoMigrate(
 		new(model.User),
+		new(model.Role),
+		new(model.Menu),
 	)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("数据库表结构同步失败：", err.Error()))
