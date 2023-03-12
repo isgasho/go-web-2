@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"go-web/common"
 	"go-web/model"
-	zap_gorm "go-web/pkg/zap-gorm"
+	"go-web/pkg/zapgorm"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -27,7 +28,7 @@ func Mysql() {
 	)
 
 	// 打印数据库连接
-	common.Logger.Info("打开 MySQL 链接：", dsnLogStr)
+	log.Println("打开 MySQL 链接：", dsnLogStr)
 
 	// 真正连接串
 	dsn := strings.Replace(dsnLogStr, "******", common.Config.Mysql.Password, 1)
@@ -42,16 +43,14 @@ func Mysql() {
 			TablePrefix:   common.Config.Mysql.TablePrefix, // 表名前缀
 			SingularTable: true,                            // 表名单数
 		},
-		Logger:                                   zap_gorm.New(common.Logger),
+		Logger:                                   zapgorm.New(common.Logger),
 		DisableForeignKeyConstraintWhenMigrating: true, // 禁用外键
 		QueryFields:                              true, // 解决查询全部字段可能不走索引的问题
 	})
 
 	// 连接错误
 	if err != nil {
-		errorMsg := fmt.Sprintf("数据库连接异常：%s", err.Error())
-		common.Logger.Error(errorMsg)
-		panic(errorMsg)
+		log.Fatal("数据库连接异常：", err.Error())
 	}
 
 	// 设置数据库连接池
@@ -64,20 +63,18 @@ func Mysql() {
 	common.DB = db
 
 	// 日志输出
-	common.Logger.Info("MySQL 数据库连接成功！")
+	log.Println("MySQL 数据库连接成功！")
 }
 
 // AutoMigrate 表同步
 func AutoMigrate() {
-	common.Logger.Info("开始同步数据库表结构...")
+	log.Println("开始同步数据库表结构...")
 	err := common.DB.AutoMigrate(
 		new(model.User),
 	)
 	if err != nil {
-		errMsg := fmt.Sprintf("数据库表结构同步失败：", err.Error())
-		common.Logger.Error(errMsg)
-		panic(errMsg)
+		log.Fatal(fmt.Sprintf("数据库表结构同步失败：", err.Error()))
 	}
-	common.Logger.Info("数据库表结构同步完成！")
+	log.Println("数据库表结构同步完成！")
 	os.Exit(0)
 }

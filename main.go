@@ -34,7 +34,6 @@ func main() {
 	} else if len(os.Args) == 3 && os.Args[1] == "run" {
 		runEnv = os.Args[2]
 	} else {
-		log.Println("参数错误！")
 		printHelp()
 		os.Exit(1)
 	}

@@ -1,4 +1,4 @@
-package zap_gorm
+package zapgorm
 
 import (
 	"context"
