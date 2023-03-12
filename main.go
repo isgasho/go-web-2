@@ -48,6 +48,10 @@ func main() {
 	if command == "migrate" {
 		initialize.AutoMigrate()
 	}
+	// 数据初始化
+	if command == "init" {
+		initialize.User()
+	}
 	// 路由初始化
 	router := initialize.Router()
 
