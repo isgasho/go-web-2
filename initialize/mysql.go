@@ -3,9 +3,11 @@ package initialize
 import (
 	"fmt"
 	"go-web/common"
+	"go-web/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"os"
 	"strings"
 	"time"
 )
@@ -62,4 +64,19 @@ func Mysql() {
 
 	// 日志输出
 	common.Logger.Info("MySQL 数据库连接成功！")
+}
+
+// AutoMigrate 表同步
+func AutoMigrate() {
+	common.Logger.Info("开始同步数据库表结构...")
+	err := common.DB.AutoMigrate(
+		new(model.User),
+	)
+	if err != nil {
+		errMsg := fmt.Sprintf("数据库表结构同步失败：", err.Error())
+		common.Logger.Error(errMsg)
+		panic(errMsg)
+	}
+	common.Logger.Info("数据库表结构同步完成！")
+	os.Exit(0)
 }

@@ -18,4 +18,6 @@ go get -u github.com/natefinch/lumberjack
 # gorm：MySQL 数据库操作
 go get -u gorm.io/gorm
 go get -u gorm.io/driver/mysql
+# carbon：时间库
+go get -u github.com/golang-module/carbon/v2
 ```

@@ -8,13 +8,11 @@ import (
 	"go-web/common"
 	"go-web/pkg/dto"
 	"log"
-	"os"
-	"strings"
 )
 
 // 创建相关基础常量
 const (
-	configEnvName = "RUN_ENV"
+	// configEnvName = "RUN_ENV"
 	configType    = "yml"
 	configDir     = "config"
 	configPrefix  = "application"
@@ -42,7 +40,7 @@ func ReadConfig(box dto.ConfigBox, v *viper.Viper, filename string) {
 }
 
 // Config 初始化配置文件
-func Config(fs embed.FS) {
+func Config(fs embed.FS, runEnv string) {
 	// 初始化配置文件盒子
 	var box dto.ConfigBox
 	// 需要把 config 下面的所有配置都传过来
@@ -62,13 +60,12 @@ func Config(fs embed.FS) {
 	}
 
 	// 获取运行模式，通过运行方式判断实际需要加载的配置文件
-	runEnv := strings.ToLower(os.Getenv(configEnvName))
+	// runEnv := strings.ToLower(os.Getenv(configEnvName))
+	// 通过用户传递启动参数
 	if runEnv != "" && runEnv != configDefault {
 		// 再次读取需要的配置文件
 		configName := fmt.Sprintf("%s-%s.%s", configPrefix, runEnv, configType)
 		ReadConfig(box, v, configName)
-	} else {
-		runEnv = configDefault
 	}
 
 	// 将最终的配置文件传递给全局使用
