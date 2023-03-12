@@ -29,13 +29,8 @@ var fs embed.FS
 
 func main() {
 	// 判断用户传递的参数
-	if len(os.Args) == 2 {
+	if len(os.Args) == 2 && utils.Contains(commands, os.Args[1]) {
 		command = os.Args[1]
-		if !utils.Contains(commands, command) {
-			log.Println("参数错误！")
-			printHelp()
-			os.Exit(1)
-		}
 	} else if len(os.Args) == 3 && os.Args[1] == "run" {
 		runEnv = os.Args[2]
 	} else {

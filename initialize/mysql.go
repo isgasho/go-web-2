@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-web/common"
 	"go-web/model"
+	zap_gorm "go-web/pkg/zap-gorm"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -41,7 +42,7 @@ func Mysql() {
 			TablePrefix:   common.Config.Mysql.TablePrefix, // 表名前缀
 			SingularTable: true,                            // 表名单数
 		},
-		Logger:                                   nil,
+		Logger:                                   zap_gorm.New(common.Logger),
 		DisableForeignKeyConstraintWhenMigrating: true, // 禁用外键
 		QueryFields:                              true, // 解决查询全部字段可能不走索引的问题
 	})

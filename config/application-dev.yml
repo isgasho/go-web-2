@@ -55,7 +55,7 @@ mysql:
   # 连接最大可复用时间，分钟
   max-idle-time: 60
   # 是否打印日志，false 只打印 Error
-  log-mode: true
+  log-mode: false
   # 日志级别(1-3，Info，Warn，Error)
   log-level: 1
 
