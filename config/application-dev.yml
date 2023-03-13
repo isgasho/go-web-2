@@ -59,5 +59,19 @@ mysql:
   # 日志级别(1-3，Info，Warn，Error)
   log-level: 1
 
+# JWT 配置
+jwt:
+  # JWT 标识
+  realm: go-web
+  # 服务端密钥
+  key: go-web-key
+  # 超时时间，小时
+  timeout: 24
+  # Token 刷新时间，小时
+  max-refresh: 168
+
+
+
+
 
 

@@ -7,6 +7,7 @@ type Configuration struct {
 	System SystemConfiguration `mapstructure:"system" json:"system"`
 	Log    LogConfiguration    `mapstructure:"log" json:"log"`
 	Mysql  MysqlConfiguration  `mapstructure:"mysql" json:"mysql"`
+	JWT    JWTConfiguration    `mapstructure:"jwt" json:"jwt"`
 }
 
 // SystemConfiguration 系统配置
@@ -45,4 +46,12 @@ type MysqlConfiguration struct {
 	MaxIdleTime        int    `mapstructure:"max-idle-time" json:"max-idle-time"`
 	LogMode            bool   `mapstructure:"log-mode" json:"log-mode"`
 	LogLevel           int    `mapstructure:"log-level" json:"log-level"`
+}
+
+// JWTConfiguration JWT 配置
+type JWTConfiguration struct {
+	Realm      string `mapstructure:"realm" json:"realm"`
+	Key        string `mapstructure:"key" json:"key"`
+	Timeout    int    `mapstructure:"timeout" json:"timeout"`
+	MaxRefresh int    `mapstructure:"max-refresh" json:"max-refresh"`
 }

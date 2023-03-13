@@ -6,6 +6,7 @@ import (
 	"go-web/common"
 	"go-web/middleware"
 	"go-web/routes"
+	"log"
 )
 
 func Router() *gin.Engine {
@@ -22,6 +23,12 @@ func Router() *gin.Engine {
 	r.Use(middleware.Cors)
 	// 异常捕获中间件
 	r.Use(middleware.Exception)
+	
+	// JWT 中间件
+	auth, err := middleware.JWTAuth()
+	if err != nil {
+		log.Fatalln("JWT中间件初始化失败：", err.Error())
+	}
 	// 创建默认路由组
 	baseGroup := r.Group(fmt.Sprintf("/%s/%s", common.Config.System.ApiPrefix, common.Config.System.ApiVersion))
 
@@ -29,6 +36,12 @@ func Router() *gin.Engine {
 	publicGroup := baseGroup.Group("/")
 	{
 		routes.Public(publicGroup)
+	}
+
+	// 认证路由组，登录登出等接口，需要用到 JWT 中间件
+	authGroup := baseGroup.Group("/")
+	{
+		routes.Auth(authGroup, auth)
 	}
 
 	// 其它路由组

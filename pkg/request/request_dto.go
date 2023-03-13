@@ -1,4 +1,4 @@
-package dto
+package request
 
 // Login 登录请求的结构体
 type Login struct {

@@ -13,8 +13,6 @@ const (
 	Forbidden           = 403
 	ParamError          = 406
 	InternalServerError = 500
-	UserLoginError      = 1001
-	UserDisable         = 1002
 )
 
 // 状态码对应的信息
@@ -25,8 +23,13 @@ const (
 	ForbiddenMessage           = "无权限访问该资源"
 	ParamErrorMessage          = "参数错误"
 	InternalServerErrorMessage = "服务器内部错误，请联系管理员"
-	UserLoginErrorMessage      = "用户名或密码错误"
-	UserDisableMessage         = "用户已经被禁用，请联系管理员"
+)
+
+// 用户认证相关错误信息
+const (
+	UserLoginErrorMessage = "用户名或密码错误"
+	UserDisableMessage    = "用户已经被禁用，请联系管理员"
+	UserLockedMessage     = "用户已锁定，请联系管理员"
 )
 
 // CustomMessage 状态码和信息绑定
@@ -37,8 +40,6 @@ var CustomMessage = map[int]string{
 	Forbidden:           ForbiddenMessage,
 	ParamError:          ParamErrorMessage,
 	InternalServerError: InternalServerErrorMessage,
-	UserLoginError:      UserLoginErrorMessage,
-	UserDisable:         UserDisableMessage,
 }
 
 // JSON 封装 JSON 响应方法，状态码通过返回的数据给定
