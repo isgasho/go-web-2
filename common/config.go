@@ -8,6 +8,7 @@ type Configuration struct {
 	Log    LogConfiguration    `mapstructure:"log" json:"log"`
 	Mysql  MysqlConfiguration  `mapstructure:"mysql" json:"mysql"`
 	JWT    JWTConfiguration    `mapstructure:"jwt" json:"jwt"`
+	Redis  RedisConfiguration  `mapstructure:"redis" json:"redis"`
 }
 
 // SystemConfiguration 系统配置
@@ -33,7 +34,7 @@ type LogConfiguration struct {
 // MysqlConfiguration MySQL 配置
 type MysqlConfiguration struct {
 	Host               string `mapstructure:"host" json:"host"`
-	Port               string `mapstructure:"port" json:"port"`
+	Port               int    `mapstructure:"port" json:"port"`
 	Database           string `mapstructure:"database" json:"database"`
 	Username           string `mapstructure:"username" json:"username"`
 	Password           string `mapstructure:"password" json:"password"`
@@ -54,4 +55,12 @@ type JWTConfiguration struct {
 	Key        string `mapstructure:"key" json:"key"`
 	Timeout    int    `mapstructure:"timeout" json:"timeout"`
 	MaxRefresh int    `mapstructure:"max-refresh" json:"max-refresh"`
+}
+
+// RedisConfiguration Redis 配置
+type RedisConfiguration struct {
+	Host     string `mapstructure:"host" json:"host"`
+	Port     int    `mapstructure:"port" json:"port"`
+	Password string `mapstructure:"password" json:"password"`
+	DB       int    `mapstructure:"db" json:"db"`
 }

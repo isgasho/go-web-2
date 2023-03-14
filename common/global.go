@@ -1,6 +1,7 @@
 package common
 
 import (
+	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -10,6 +11,7 @@ var (
 	Config Configuration      // 配置
 	Logger *zap.SugaredLogger // 日志输出
 	DB     *gorm.DB           // 数据库连接
+	Redis  *redis.Client      // Redis 连接
 )
 
 // 时间格式化

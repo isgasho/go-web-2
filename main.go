@@ -52,6 +52,8 @@ func main() {
 	if command == "init" {
 		initialize.User()
 	}
+	// 初始化 Redis 连接
+	initialize.Redis()
 	// 路由初始化
 	router := initialize.Router()
 

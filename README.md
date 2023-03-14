@@ -22,4 +22,6 @@ go get -u gorm.io/driver/mysql
 go get -u github.com/golang-module/carbon/v2
 # gin-jwt：JWT
 go get -u github.com/appleboy/gin-jwt/v2
+# go-redis：Redis
+go get -u github.com/redis/go-redis/v9
 ```

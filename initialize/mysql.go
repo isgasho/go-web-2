@@ -17,7 +17,7 @@ import (
 // Mysql 初始化 MySQL 连接
 func Mysql() {
 	// 连接字符串，密码 * 是为了日志中打印出来
-	dsnLogStr := fmt.Sprintf("%s:******@tcp(%s:%s)/%s?%s&charset=%s&collation=%s",
+	dsnLogStr := fmt.Sprintf("%s:******@tcp(%s:%d)/%s?%s&charset=%s&collation=%s",
 		common.Config.Mysql.Username,
 		common.Config.Mysql.Host,
 		common.Config.Mysql.Port,
