@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-web/common"
 	"go-web/model"
-	"go-web/pkg/request"
+	"go-web/pkg/dto"
 	"go-web/pkg/response"
 	"gorm.io/gorm"
 	"time"
@@ -39,7 +39,7 @@ func JWTAuth() (*jwt.GinJWTMiddleware, error) {
 // 通过从 ctx 中检索出数据进行验证，最终返回包含用户信息的 Map 或者 Struct
 func authenticator(ctx *gin.Context) (interface{}, error) {
 	// 获取用户传递的数据
-	var req request.Login
+	var req dto.Login
 	_ = ctx.ShouldBindJSON(&req)
 
 	// 查询用户信息
