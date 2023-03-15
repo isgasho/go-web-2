@@ -50,7 +50,7 @@ func main() {
 	}
 	// 数据初始化
 	if command == "init" {
-		initialize.User()
+		initialize.Data()
 	}
 	// 初始化 Redis 连接
 	initialize.Redis()
