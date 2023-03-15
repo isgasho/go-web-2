@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Gorm 日志处理
+// Logger Gorm 日志处理
 type Logger struct {
 	ZapLogger     *zap.SugaredLogger
 	LogLevel      gormlogger.LogLevel

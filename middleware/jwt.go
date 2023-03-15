@@ -9,6 +9,7 @@ import (
 	"go-web/pkg/dto"
 	"go-web/pkg/request"
 	"go-web/pkg/response"
+	"go-web/pkg/utools"
 	"gorm.io/gorm"
 	"time"
 )
@@ -45,30 +46,38 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 
 	// 查询用户信息
 	var user model.User
-	result := common.DB.Where("username = ? and password = ?", req.Username, req.Password).First(&user)
+	result := common.DB.Where("username = ?", req.Username).First(&user)
 
 	// 判断用户是否存在
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return nil, errors.New(response.UserLoginErrorMessage)
 	} else {
-		if *user.Status == 0 {
-			// 判断用户是否被禁用
-			return nil, errors.New(response.UserDisableMessage)
-		} else if *user.Locked == 1 {
-			// 判断用户是否被锁定
-			return nil, errors.New(response.UserLockedMessage)
-		} else {
-			// 组装返回数据
-			data := map[string]interface{}{
-				"user": map[string]interface{}{
-					"id":       user.Id,
-					"username": user.Username,
-					"nickname": user.Nickname,
-				},
-			}
-			// 此处返回的数据会被传递给 PayloadFunc 函数继续处理
-			return data, nil
+		// 验证密码
+		if !utools.ComparePassword(user.Password, req.Password) {
+			return nil, errors.New(response.UserLoginErrorMessage)
 		}
+
+		// 判断用户是否被禁用
+		if *user.Status == 0 {
+			return nil, errors.New(response.UserDisableMessage)
+		}
+
+		// 判断用户是否被锁定
+		if *user.Locked == 1 {
+			return nil, errors.New(response.UserLockedMessage)
+		}
+
+		// 都验证通过，就组装返回数据
+		data := map[string]interface{}{
+			"user": map[string]interface{}{
+				"id":       user.Id,
+				"username": user.Username,
+				"nickname": user.Nickname,
+			},
+		}
+
+		// 此处返回的数据会被传递给 PayloadFunc 函数继续处理
+		return data, nil
 	}
 }
 

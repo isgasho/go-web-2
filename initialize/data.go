@@ -4,6 +4,7 @@ import (
 	"errors"
 	"go-web/common"
 	"go-web/model"
+	"go-web/pkg/utools"
 	"gorm.io/gorm"
 	"os"
 )
@@ -12,7 +13,7 @@ import (
 var users = []model.User{
 	model.User{
 		Username:   "admin",
-		Password:   "123456",
+		Password:   "12345678",
 		Nickname:   "超级管理员",
 		Mobile:     "18888888888",
 		Email:      "abc@qq.com",
@@ -28,6 +29,8 @@ func User() {
 		err := common.DB.Where("username = ?", user.Username).First(&user).Error
 		// 如果记录不存在则添加数据
 		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// 密码加密存储
+			user.Password = utools.CryptoPassword(user.Password)
 			common.DB.Create(&user)
 		}
 	}
