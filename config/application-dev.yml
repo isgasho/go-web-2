@@ -54,7 +54,7 @@ mysql:
   max-open-connections: 100
   # 连接最大可复用时间，分钟
   max-idle-time: 60
-  # 是否打印日志，false 只打印 Error
+  # 是否打印日志，false 不输出日志，级别为 4 Silent
   log-mode: false
   # 日志级别(1-3，Info，Warn，Error)
   log-level: 1

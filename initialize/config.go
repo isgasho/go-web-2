@@ -104,5 +104,5 @@ func Config(fs embed.FS, runEnv string) {
 	if err != nil {
 		log.Fatal("配置文件初始化失败：", err.Error())
 	}
-	log.Println("配置文件初始化完成，初始化环境为：", runEnv)
+	log.Println(fmt.Sprintf("%s 配置初始化完成！", runEnv))
 }

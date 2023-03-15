@@ -18,17 +18,19 @@ type Logger struct {
 
 func New(zapLogger *zap.SugaredLogger) Logger {
 	logLevel := gormlogger.Info
-	if common.Config.Mysql.LogLevel == 1 {
-		logLevel = gormlogger.Info
-	} else if common.Config.Mysql.LogLevel >= 2 {
-		logLevel = gormlogger.Warn
-	} else if common.Config.Mysql.LogLevel >= 3 {
-		logLevel = gormlogger.Error
-	}
 
-	// 如果设置不输出，则只打印错误
+	// 如果设置不输出，则关闭日志
 	if !common.Config.Mysql.LogMode {
-		logLevel = gormlogger.Error
+		logLevel = gormlogger.Silent
+	} else {
+		// 否则设置日志级别
+		if common.Config.Mysql.LogLevel == 1 {
+			logLevel = gormlogger.Info
+		} else if common.Config.Mysql.LogLevel >= 2 {
+			logLevel = gormlogger.Warn
+		} else if common.Config.Mysql.LogLevel >= 3 {
+			logLevel = gormlogger.Error
+		}
 	}
 
 	return Logger{
