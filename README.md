@@ -1,9 +1,6 @@
 <h1 align="center">Hi 👋, GO-WEB（开发中）</h1>
 <h3 align="center">一个通过 Go / Gin / Gorm / Casbin 实现的 RBAC 后台管理系统示例</h3>
 <p align="center">
-<a href="https://github.com/goer3/go-web/blob/master/LICENSE" target="blank">
-<img src="https://img.shields.io/github/license/goer3/go-web?style=flat-square" alt="github-profile-readme-generator license" />
-</a>
 <a href="https://github.com/goer3/go-web/fork" target="blank">
 <img src="https://img.shields.io/github/forks/goer3/go-web?style=flat-square" alt="github-profile-readme-generator forks"/>
 </a>
@@ -12,9 +9,6 @@
 </a>
 <a href="https://github.com/goer3/go-web/issues" target="blank">
 <img src="https://img.shields.io/github/issues/goer3/go-web?style=flat-square" alt="github-profile-readme-generator issues"/>
-</a>
-<a href="https://github.com/goer3/go-web/pulls" target="blank">
-<img src="https://img.shields.io/github/issues-pr/goer3/go-web?style=flat-square" alt="github-profile-readme-generator pull-requests"/>
 </a>
 </p>
 
