@@ -23,16 +23,16 @@
 ### 🔨 技术栈
 
 - [x] Go：Google 开发的开源编程语言，诞生于 2006 年 1 月 2 日 15 点 4 分 5 秒 [:octocat:](https://github.com/golang/go)
-- [x] Gin：用 Go 编写的高性能 HTTP Web 框架 [:octocat:](github.com/gin-gonic/gin)
-- [x] Gorm：数据库 ORM 管理框架, 可自行扩展多种数据库类型 [:octocat:](gorm.io/gorm)
-- [x] Redis：Redis 客户端 [:octocat:](github.com/redis/go-redis)
-- [x] Viper：配置管理工具, 支持多种配置文件类型 [:octocat:](github.com/spf13/viper)
+- [x] Gin：用 Go 编写的高性能 HTTP Web 框架 [:octocat:](https://github.com/gin-gonic/gin)
+- [x] Gorm：数据库 ORM 管理框架, 可自行扩展多种数据库类型 [:octocat:](https://gorm.io/gorm)
+- [x] Redis：Redis 客户端 [:octocat:](https://github.com/redis/go-redis)
+- [x] Viper：配置管理工具, 支持多种配置文件类型 [:octocat:](https://github.com/spf13/viper)
 - [x] Embed：go 1.16 新增的文件嵌入属性, 轻松将静态文件打包到编译后的二进制应用中
-- [x] Zap：快速、结构化、分级的日志记录 [:octocat:](go.uber.org/zap)
-- [x] Lumberjack：将日志写入滚动文件 [:octocat:](github.com/natefinch/lumberjack)
-- [x] Jwt：用户认证, 登入登出一键搞定 [:octocat:](github.com/appleboy/gin-jwt)
-- [x] Validator：请求参数校验, 版本 V10 [:octocat:](github.com/go-playground/validator)
-- [x] Carbon：简单、语义化且对开发人员友好的 datetime 包 [:octocat:](github.com/golang-module/carbon)
+- [x] Zap：快速、结构化、分级的日志记录 [:octocat:](https://go.uber.org/zap)
+- [x] Lumberjack：将日志写入滚动文件 [:octocat:](https://github.com/natefinch/lumberjack)
+- [x] Jwt：用户认证, 登入登出一键搞定 [:octocat:](https://github.com/appleboy/gin-jwt)
+- [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
+- [x] Carbon：简单、语义化且对开发人员友好的 datetime 包 [:octocat:](https://github.com/golang-module/carbon)
 
 ### 💬 联系我
 
