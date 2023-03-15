@@ -40,7 +40,11 @@ func JWTAuth() (*jwt.GinJWTMiddleware, error) {
 func authenticator(ctx *gin.Context) (interface{}, error) {
 	// 获取用户传递的数据
 	var req dto.Login
-	_ = ctx.ShouldBindJSON(&req)
+	err := ctx.ShouldBindJSON(&req)
+	// 参数校验判断
+	if err != nil {
+		return nil, err
+	}
 
 	// 查询用户信息
 	var user model.User

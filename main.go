@@ -54,6 +54,8 @@ func main() {
 	}
 	// 初始化 Redis 连接
 	initialize.Redis()
+	// 初始化验证器
+	initialize.Validator()
 	// 路由初始化
 	router := initialize.Router()
 

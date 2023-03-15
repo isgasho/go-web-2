@@ -1,6 +1,8 @@
 package common
 
 import (
+	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/validator/v10"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -8,10 +10,12 @@ import (
 
 // 全局变量
 var (
-	Config Configuration      // 配置
-	Logger *zap.SugaredLogger // 日志输出
-	DB     *gorm.DB           // 数据库连接
-	Redis  *redis.Client      // Redis 连接
+	Config     Configuration       // 配置
+	Logger     *zap.SugaredLogger  // 日志输出
+	DB         *gorm.DB            // 数据库连接
+	Redis      *redis.Client       // Redis 连接
+	Validate   *validator.Validate // validation.v10 校验器
+	Translator ut.Translator       // validation.v10 翻译器
 )
 
 // 时间格式化
