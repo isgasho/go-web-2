@@ -16,7 +16,7 @@
 
 
 
-### 🥳 项目说明
+### 🥳 学习路线
 
 - 🤔 &nbsp; 初学者可以跟着 GIT 提交记录一步一步的实现整个项目
 
@@ -34,7 +34,7 @@
 - [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
 - [x] Carbon：简单、语义化且对开发人员友好的 datetime 包 [:octocat:](https://github.com/golang-module/carbon)
 
-### 💬 联系我
+### 💬 联系我呗
 
 [![QQmail](https://img.shields.io/badge/-1214966109@qq.com-006bed?style=flat-square&logo=Gmail&logoColor=white&link=mailto:1214966109@qq.com)](mailto:1214966109@qq.com)
 
@@ -47,3 +47,9 @@
 
 该项目是参考学习以下项目，然后自己再修修改改而来，感谢这些铁子们 🌹：
 - `https://github.com/piupuer/gin-web`
+
+### 👍 推荐
+
+推荐 Github 国内访问慢的 hosts 配置项目：
+- `https://github.com/521xueweihan/GitHub520`
+
