@@ -19,37 +19,39 @@ type FieldErrorsInterface interface {
 
 // NewValidatorError 对验证错误进行重写
 func NewValidatorError(err error, fieldTrans map[string]string, fieldError map[string]string) error {
+	// 如果没有报错，则直接跳过
 	if err == nil {
 		return nil
 	}
 
-	// 获取校验错误
-	errs := err.(validator.ValidationErrors)
-	for _, e := range errs {
-		transStr := e.Translate(common.Translator)
+	// 判断错误是否是校验错误
+	errs, ok := err.(validator.ValidationErrors)
+	if ok {
+		// 遍历错误，可能有多个字段报错
+		for _, e := range errs {
+			tran := e.Translate(common.Translator)
+			// 字段名称
+			fd := e.Field()
 
-		// 字段名称
-		field := e.Field()
+			// 获取自定义的错误
+			v, isExist := fieldError[fd]
+			if isExist {
+				return errors.New(v)
+			}
 
-		// 自定义错误：先判断错误是否被重写
-		v, ok := fieldError[field]
-		if ok {
-			// 返回自定义错误
-			return errors.New(v)
+			// 如果不是自定义的，则是系统的错误，就需要重写字段
+			v, isExist = fieldTrans[fd]
+			if isExist {
+				// 需要进行翻译
+				return errors.New(strings.Replace(tran, e.Field(), v, -1))
+			}
+			return errors.New(tran)
 		}
-
-		// 系统错误：为重写错误信息的字段
-		v, ok = fieldTrans[field]
-		if ok {
-			// 替换掉英文字段为中文
-			return errors.New(strings.Replace(transStr, e.Field(), v, -1))
-		}
-		return errors.New(transStr)
 	}
 	return nil
 }
 
-// ShouldBindJSON 重写参数绑定方法，增加字段校验
+// ShouldBindJSON 重写参数绑定方法，在内部增加字段校验
 func ShouldBindJSON(ctx *gin.Context, req interface{}) {
 	err := ctx.ShouldBindJSON(req)
 

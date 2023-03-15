@@ -2,10 +2,10 @@ package initialize
 
 import (
 	"errors"
-	"fmt"
 	"go-web/common"
 	"go-web/model"
 	"gorm.io/gorm"
+	"os"
 )
 
 // 用户数据
@@ -26,10 +26,10 @@ func User() {
 	for _, user := range users {
 		// 查看记录是否存在
 		err := common.DB.Where("username = ?", user.Username).First(&user).Error
-		fmt.Println(123)
 		// 如果记录不存在则添加数据
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			common.DB.Create(&user)
 		}
 	}
+	os.Exit(0)
 }
