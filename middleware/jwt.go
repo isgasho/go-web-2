@@ -7,12 +7,16 @@ import (
 	"go-web/common"
 	"go-web/dto"
 	"go-web/model"
+	"go-web/pkg/gedis"
 	"go-web/pkg/request"
 	"go-web/pkg/response"
 	"go-web/pkg/utools"
 	"gorm.io/gorm"
 	"time"
 )
+
+// 暂存用户信息
+var userInfo model.User
 
 // JWTAuth JWT 认证中间件
 func JWTAuth() (*jwt.GinJWTMiddleware, error) {
@@ -67,6 +71,9 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 			return nil, errors.New(response.UserLockedMessage)
 		}
 
+		// 用户信息存一份，让后面的函数也能直接使用
+		userInfo = user
+
 		// 都验证通过，就组装返回数据
 		data := map[string]interface{}{
 			"user": map[string]interface{}{
@@ -98,10 +105,31 @@ func payloadFunc(data interface{}) jwt.MapClaims {
 
 // 接收 PayloadFunc 传递过来的 Token 信息，返回登录成功
 func loginResponse(ctx *gin.Context, code int, token string, expire time.Time) {
+	// 将用户登录的 Token 信息存到 Redis 中
+	cache := gedis.NewStringOperation()
+
+	// 组合对应的 Key
+	tokenKey := common.RedisKeys.TokenKeyPrefix + common.RedisKeys.PrefixTag + userInfo.Username
+	tokenExpireKey := common.RedisKeys.TokenExpireKeyPrefix + common.RedisKeys.PrefixTag + userInfo.Username
+
+	// 查询 Key 是否存在
+	cacheToken := cache.Get(tokenKey).Unwrap()
+	cacheTokenExpire := cache.Get(tokenExpireKey).Unwrap()
+
+	// 如果不在就存 Redis
+	if cacheToken == "" || cacheTokenExpire == "" {
+		// 存 Token
+		cacheToken = token
+		cache.Set(tokenKey, cacheToken, gedis.WithExpire(time.Duration(common.Config.JWT.Timeout)*time.Hour))
+		// 存过期时间，将时间格式化一下，Json 好处理
+		cacheTokenExpire = expire.Format(common.SecLocalTimeFormat)
+		cache.Set(tokenExpireKey, cacheTokenExpire, gedis.WithExpire(time.Duration(common.Config.JWT.Timeout)*time.Hour))
+	}
+
 	// 相应请求
 	response.SuccessWithData(map[string]interface{}{
-		"token":  token,
-		"expire": expire,
+		"token":  cacheToken,
+		"expire": cacheTokenExpire,
 	})
 }
 

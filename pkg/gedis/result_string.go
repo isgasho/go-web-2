@@ -18,7 +18,7 @@ func NewStringResult(result string, error error) *StringResult {
 // Unwrap 获取值
 func (this *StringResult) Unwrap() string {
 	if this.Error != nil {
-		common.Logger.Warn("缓存未命中：", this.Error.Error())
+		common.Logger.Debug("缓存未命中：", this.Error.Error())
 	}
 	return this.Result
 }
