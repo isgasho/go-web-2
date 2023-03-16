@@ -36,7 +36,10 @@ func GetUserInfoById(ctx *gin.Context) {
 	utools.Struct2StructByJson(user, &resp)
 
 	// 完善返回数据
-	resp.Role = user.Role.Name
+	//resp.Roles = []string{
+	//	user.Role.Name,
+	//}
+
 	response.SuccessWithData(map[string]interface{}{
 		"userInfo": resp,
 	})

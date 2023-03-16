@@ -18,7 +18,12 @@ type UserInfoResponse struct {
 	Status       *uint           `json:"status"`
 	LastLogin    carbon.DateTime `json:"lastLogin"`
 	Locked       *uint           `json:"locked"`
-	Role         string          `json:"role"`
-	CreatedAt    carbon.DateTime `json:"createdAt"`
-	UpdatedAt    carbon.DateTime `json:"updatedAt"`
+	Role         struct {
+		Id      uint   `json:"id"`
+		Name    string `json:"name"`
+		Keyword string `json:"keyword"`
+		Desc    string `json:"desc"`
+	} `json:"role"`
+	CreatedAt carbon.DateTime `json:"createdAt"`
+	UpdatedAt carbon.DateTime `json:"updatedAt"`
 }

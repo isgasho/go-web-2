@@ -90,22 +90,16 @@ func loginResponse(ctx *gin.Context, code int, token string, expire time.Time) {
 	cache := gedis.NewStringOperation()
 
 	// 组合对应的 Key
-	tokenKey := common.RedisKeys.TokenKeyPrefix + common.RedisKeys.PrefixTag + userInfo.Username
-	tokenExpireKey := common.RedisKeys.TokenExpireKeyPrefix + common.RedisKeys.PrefixTag + userInfo.Username
+	var tokenKey = common.RedisKeys.TokenKeyPrefix + common.RedisKeys.PrefixTag + userInfo.Username
+	var tokenExpireKey = common.RedisKeys.TokenExpireKeyPrefix + common.RedisKeys.PrefixTag + userInfo.Username
 
-	// 查询 Key 是否存在
-	cacheToken := cache.Get(tokenKey).Unwrap()
-	cacheTokenExpire := cache.Get(tokenExpireKey).Unwrap()
+	// 因为是登录逻辑，所以就把 Token 刷新一次
+	cacheToken := token
+	cache.Set(tokenKey, token, gedis.WithExpire(time.Duration(common.Config.JWT.Timeout)*time.Hour))
 
-	// 如果不在就存 Redis
-	if cacheToken == "" || cacheTokenExpire == "" {
-		// 存 Token
-		cacheToken = token
-		cache.Set(tokenKey, cacheToken, gedis.WithExpire(time.Duration(common.Config.JWT.Timeout)*time.Hour))
-		// 存过期时间，将时间格式化一下，Json 好处理
-		cacheTokenExpire = expire.Format(common.SecLocalTimeFormat)
-		cache.Set(tokenExpireKey, cacheTokenExpire, gedis.WithExpire(time.Duration(common.Config.JWT.Timeout)*time.Hour))
-	}
+	// 存过期时间，将时间格式化一下，Json 好处理
+	cacheTokenExpire := expire.Format(common.SecLocalTimeFormat)
+	cache.Set(tokenExpireKey, cacheTokenExpire, gedis.WithExpire(time.Duration(common.Config.JWT.Timeout)*time.Hour))
 
 	// 相应请求
 	response.SuccessWithData(map[string]interface{}{
@@ -119,7 +113,7 @@ func unauthorized(ctx *gin.Context, code int, message string) {
 	response.FailedWithCodeAndMessage(code, message)
 }
 
-// 解析 Token，验证 Token 是否合法
+// 解析 Token
 func identityHandler(ctx *gin.Context) interface{} {
 	claims := jwt.ExtractClaims(ctx)
 	return map[string]interface{}{
@@ -128,11 +122,30 @@ func identityHandler(ctx *gin.Context) interface{} {
 	}
 }
 
-// 验证 Token
+// 验证 Token 是否合法
 func authorizator(data interface{}, ctx *gin.Context) bool {
 	v, ok := data.(map[string]interface{})
 	if ok {
-		ctx.Set("user", v["user"])
+		// 获取用户名
+		user := v["user"]
+		v1, _ := user.(map[string]interface{})
+		username := v1["username"]
+		v2, _ := username.(string)
+
+		token := jwt.GetToken(ctx)
+
+		// 组合对应的 Key
+		tokenKey := common.RedisKeys.TokenKeyPrefix + common.RedisKeys.PrefixTag + v2
+
+		// 查询键是否存在，如果不存在就验证失败
+		cache := gedis.NewStringOperation()
+
+		// 如果 Token 不对
+		if cache.Get(tokenKey).Unwrap() != token {
+			return false
+		}
+
+		ctx.Set("user", user)
 		return true
 	}
 	return false
