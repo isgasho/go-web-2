@@ -46,3 +46,11 @@ func (s *MysqlService) LoginCheck(username string, password string) (*model.User
 	}
 	return &user, nil
 }
+
+// GetUserInfoById 获取用户信息通过 ID
+func (s *MysqlService) GetUserInfoById(id uint) (model.User, error) {
+	var user model.User
+	// 预加载 Role 信息
+	err := s.db.Preload("Role", "status = ?", true).Where("id = ?", id).First(&user).Error
+	return user, err
+}

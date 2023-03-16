@@ -4,7 +4,7 @@ import "github.com/golang-module/carbon/v2"
 
 // User 用户相关数据结构
 type User struct {
-	Base         `json:"base"`
+	Base
 	Username     string          `gorm:"index:idx_username,unique;comment:用户名" json:"username"`
 	Password     string          `gorm:"comment:用户密码" json:"password"`
 	Nickname     string          `gorm:"comment:姓名" json:"nickname"`

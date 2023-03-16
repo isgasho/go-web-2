@@ -23,7 +23,7 @@ func Router() *gin.Engine {
 	r.Use(middleware.Cors)
 	// 异常捕获中间件
 	r.Use(middleware.Exception)
-	
+
 	// JWT 中间件
 	auth, err := middleware.JWTAuth()
 	if err != nil {
@@ -34,15 +34,15 @@ func Router() *gin.Engine {
 
 	// 开放路由组，不需要任何认证鉴权
 	publicGroup := baseGroup.Group("/")
-	{
-		routes.Public(publicGroup)
-	}
+	routes.Public(publicGroup)
 
 	// 认证路由组，登录登出等接口，需要用到 JWT 中间件
 	authGroup := baseGroup.Group("/")
-	{
-		routes.Auth(authGroup, auth)
-	}
+	routes.Auth(authGroup, auth)
+
+	// 用户路由组
+	userGroup := baseGroup.Group("/")
+	routes.User(userGroup, auth)
 
 	// 其它路由组
 
