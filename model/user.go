@@ -8,8 +8,8 @@ type User struct {
 	Username     string          `gorm:"index:idx_username,unique;comment:用户名" json:"username"`
 	Password     string          `gorm:"comment:用户密码" json:"password"`
 	Nickname     string          `gorm:"comment:姓名" json:"nickname"`
-	Mobile       string          `gorm:"comment:手机号" json:"mobile"`
-	Email        string          `gorm:"comment:电子邮箱" json:"email"`
+	Mobile       string          `gorm:"index:idx_mobile,unique;comment:手机号" json:"mobile"`
+	Email        string          `gorm:"index:idx_email,unique;comment:电子邮箱" json:"email"`
 	Avatar       string          `gorm:"comment:头像地址" json:"avatar"`
 	UserNumber   string          `gorm:"comment:工号或者学号" json:"userNumber"`
 	Introduction string          `gorm:"comment:个人介绍" json:"introduction"`

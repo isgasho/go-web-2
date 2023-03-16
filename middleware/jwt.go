@@ -48,7 +48,7 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 
 	// 用户名密码登录认证
 	var s = mysql_service.New()
-	user, err := s.LoginByUsername(req.Username, req.Password)
+	user, err := s.LoginCheck(req.Username, req.Password)
 	if err != nil {
 		return nil, err
 	}
