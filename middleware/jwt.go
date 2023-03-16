@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"errors"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"go-web/common"
@@ -10,8 +9,7 @@ import (
 	"go-web/pkg/gedis"
 	"go-web/pkg/request"
 	"go-web/pkg/response"
-	"go-web/pkg/utools"
-	"gorm.io/gorm"
+	"go-web/service/mysql_service"
 	"time"
 )
 
@@ -48,44 +46,27 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 	var req dto.LoginRequest
 	request.ShouldBindJSON(ctx, &req)
 
-	// 查询用户信息
-	var user model.User
-	result := common.DB.Where("username = ?", req.Username).First(&user)
-
-	// 判断用户是否存在
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return nil, errors.New(response.UserLoginErrorMessage)
-	} else {
-		// 验证密码
-		if !utools.ComparePassword(user.Password, req.Password) {
-			return nil, errors.New(response.UserLoginErrorMessage)
-		}
-
-		// 判断用户是否被禁用
-		if *user.Status == 0 {
-			return nil, errors.New(response.UserDisableMessage)
-		}
-
-		// 判断用户是否被锁定
-		if *user.Locked == 1 {
-			return nil, errors.New(response.UserLockedMessage)
-		}
-
-		// 用户信息存一份，让后面的函数也能直接使用
-		userInfo = user
-
-		// 都验证通过，就组装返回数据
-		data := map[string]interface{}{
-			"user": map[string]interface{}{
-				"id":       user.Id,
-				"username": user.Username,
-				"nickname": user.Nickname,
-			},
-		}
-
-		// 此处返回的数据会被传递给 PayloadFunc 函数继续处理
-		return data, nil
+	// 用户名密码登录认证
+	var s = mysql_service.New()
+	user, err := s.LoginByUsername(req.Username, req.Password)
+	if err != nil {
+		return nil, err
 	}
+
+	// 用户信息存一份，让后面的函数也能直接使用
+	userInfo = *user
+
+	// 都验证通过，就组装返回数据
+	data := map[string]interface{}{
+		"user": map[string]interface{}{
+			"id":       user.Id,
+			"username": user.Username,
+			"nickname": user.Nickname,
+		},
+	}
+
+	// 此处返回的数据会被传递给 PayloadFunc 函数继续处理
+	return data, nil
 }
 
 // 接收 Authenticator 验证成功后传递过来的数据，进行封装成 Token
