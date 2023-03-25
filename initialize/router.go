@@ -44,6 +44,10 @@ func Router() *gin.Engine {
 	userGroup := baseGroup.Group("/")
 	routes.User(userGroup, auth)
 
+	// 菜单路由组
+	menuGroup := baseGroup.Group("/")
+	routes.Menu(menuGroup, auth)
+
 	// 其它路由组
 
 	// 返回路由引擎
