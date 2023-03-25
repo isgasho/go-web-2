@@ -62,6 +62,7 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 			"id":       user.Id,
 			"username": user.Username,
 			"nickname": user.Nickname,
+			"roleId":   user.RoleId,
 		},
 	}
 
