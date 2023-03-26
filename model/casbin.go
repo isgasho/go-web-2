@@ -1,6 +1,8 @@
 package model
 
 // CasbinRuleTable 模型
+// 注意现在版本中 PType 在数据库中对应的字段是 ptype，很多文章或者代码是 p_type
+// 使用 p_type 在初始化的时候会报错，原因在于他会再在数据库中加入 ptype 字段，导致多了字段，报 slice 错误
 type CasbinRuleTable struct {
 	Id    uint   `gorm:"primaryKey;autoIncrement"`
 	PType string `gorm:"size:100;uniqueIndex:uk_index;column:ptype;comment:策略类型"` // 多个字段联合唯一
