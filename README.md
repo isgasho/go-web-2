@@ -47,10 +47,10 @@
 ### 🎉 感谢
 
 该项目是参考学习以下项目，然后自己再修修改改而来，感谢这些铁子们 🌹：
-- `https://github.com/piupuer/gin-web`
+- gin-web [:octocat:](https://github.com/piupuer/gin-web)
 
 ### 👍 推荐
 
-推荐 Github 国内访问慢的 hosts 配置项目：
-- `https://github.com/521xueweihan/GitHub520`
-
+- [Github 国内访问慢配置](https://github.com/521xueweihan/GitHub520)
+- [Json 在线转换成结构体](https://app.quicktype.io)
+- [Json 解析分析文章](https://www.cnblogs.com/luozhiyun/p/14875066.html)
