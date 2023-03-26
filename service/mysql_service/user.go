@@ -16,11 +16,11 @@ func (s *MysqlService) LoginCheck(username string, password string) (*model.User
 	// 传递过来的 username 可能是用户名，邮箱，手机号，需要进行判断
 	var err error
 	if utools.RegexpString(utools.UsernameReg, username) {
-		err = s.db.Where("username = ?", username).First(&user).Error
+		err = s.db.Preload("Role", "status = ?", true).Where("username = ?", username).First(&user).Error
 	} else if utools.RegexpString(utools.EmailReg, username) {
-		err = s.db.Where("email = ?", username).First(&user).Error
+		err = s.db.Preload("Role", "status = ?", true).Where("email = ?", username).First(&user).Error
 	} else if utools.RegexpString(utools.MobileReg, username) {
-		err = s.db.Where("mobile = ?", username).First(&user).Error
+		err = s.db.Preload("Role", "status = ?", true).Where("mobile = ?", username).First(&user).Error
 	} else {
 		return nil, errors.New(response.UserLoginErrorMessage)
 	}

@@ -3,8 +3,12 @@ package utools
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/fatih/structs"
 	"go-web/common"
 )
+
+// Json 转结构体网站：https://app.quicktype.io/
+// Json 解析常用库：https://www.cnblogs.com/luozhiyun/p/14875066.html
 
 // Struct2Json 结构体转为 JSON
 func Struct2Json(obj interface{}) string {
@@ -33,4 +37,18 @@ func JsonInterface2Struct(str interface{}, obj interface{}) {
 func Struct2StructByJson(struct1 interface{}, struct2 interface{}) {
 	jsonStr := Struct2Json(struct1)
 	Json2Struct(jsonStr, struct2)
+}
+
+// Struct2MapStringInterface 将结构体转换成 map[string]interface
+func Struct2MapStringInterface(struct1 interface{}) map[string]interface{} {
+	return structs.Map(struct1)
+}
+
+// MapStringInterface2Struct 将结构体转换成 map[string]interface，第二个参数用指针
+func MapStringInterface2Struct(data map[string]interface{}, obj interface{}) {
+	jsonStr, _ := json.Marshal(data)
+	err := json.Unmarshal(jsonStr, obj)
+	if err != nil {
+		common.Logger.Error("map[string]interface 转结构体转换失败：", err.Error())
+	}
 }

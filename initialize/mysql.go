@@ -72,6 +72,7 @@ func AutoMigrate() {
 		new(model.User),
 		new(model.Role),
 		new(model.Menu),
+		new(model.CasbinRuleTable),
 	)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("数据库表结构同步失败：", err.Error()))

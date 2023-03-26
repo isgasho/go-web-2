@@ -9,6 +9,7 @@ import (
 	"go-web/pkg/gedis"
 	"go-web/pkg/request"
 	"go-web/pkg/response"
+	"go-web/pkg/utools"
 	"go-web/service/mysql_service"
 	"time"
 )
@@ -62,7 +63,11 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 			"id":       user.Id,
 			"username": user.Username,
 			"nickname": user.Nickname,
-			"roleId":   user.RoleId,
+			"role": map[string]interface{}{
+				"id":      user.Role.Id,
+				"name":    user.Role.Name,
+				"keyword": user.Role.Keyword,
+			},
 		},
 	}
 
@@ -125,31 +130,28 @@ func identityHandler(ctx *gin.Context) interface{} {
 
 // 验证 Token 是否合法
 func authorizator(data interface{}, ctx *gin.Context) bool {
-	v, ok := data.(map[string]interface{})
-	if ok {
-		// 获取用户名
-		user := v["user"]
-		v1, _ := user.(map[string]interface{})
-		username := v1["username"]
-		v2, _ := username.(string)
+	// 获取用户
+	var user model.User
+	v, _ := data.(map[string]interface{})
+	u, _ := v["user"].(map[string]interface{})
+	utools.MapStringInterface2Struct(u, &user)
 
-		token := jwt.GetToken(ctx)
+	// 获取 Token
+	token := jwt.GetToken(ctx)
 
-		// 组合对应的 Key
-		tokenKey := common.RedisKeys.TokenKeyPrefix + common.RedisKeys.PrefixTag + v2
+	// 组合对应的 Key
+	tokenKey := common.RedisKeys.TokenKeyPrefix + common.RedisKeys.PrefixTag + user.Username
 
-		// 查询键是否存在，如果不存在就验证失败
-		cache := gedis.NewStringOperation()
+	// 查询键是否存在，如果不存在就验证失败
+	cache := gedis.NewStringOperation()
 
-		// 如果 Token 不对
-		if cache.Get(tokenKey).Unwrap() != token {
-			return false
-		}
-
-		ctx.Set("user", user)
-		return true
+	// 如果 Token 不对
+	if cache.Get(tokenKey).Unwrap() != token {
+		return false
 	}
-	return false
+
+	ctx.Set("user", u)
+	return true
 }
 
 // 退出登录

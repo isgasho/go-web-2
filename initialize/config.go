@@ -104,5 +104,9 @@ func Config(fs embed.FS, runEnv string) {
 	if err != nil {
 		log.Fatal("配置文件初始化失败：", err.Error())
 	}
+
+	apiPrefix := "/" + common.Config.System.ApiPrefix + "/" + common.Config.System.ApiVersion
+	common.ApiPrefix = apiPrefix
+
 	log.Println(fmt.Sprintf("%s 配置初始化完成！", runEnv))
 }

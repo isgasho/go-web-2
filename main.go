@@ -56,6 +56,8 @@ func main() {
 	initialize.Redis()
 	// 初始化验证器
 	initialize.Validator()
+	// 初始化 Casbin
+	initialize.Casbin(fs)
 	// 路由初始化
 	router := initialize.Router()
 

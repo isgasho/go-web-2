@@ -1,7 +1,6 @@
 package initialize
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go-web/common"
 	"go-web/middleware"
@@ -29,26 +28,24 @@ func Router() *gin.Engine {
 	if err != nil {
 		log.Fatalln("JWT中间件初始化失败：", err.Error())
 	}
+
+	// api 前缀
+
 	// 创建默认路由组
-	baseGroup := r.Group(fmt.Sprintf("/%s/%s", common.Config.System.ApiPrefix, common.Config.System.ApiVersion))
+	bg := r.Group(common.ApiPrefix)
+	{
+		routes.Public(bg, auth) // 开放路由组
 
-	// 开放路由组，不需要任何认证鉴权
-	publicGroup := baseGroup.Group("/")
-	routes.Public(publicGroup)
+	}
 
-	// 认证路由组，登录登出等接口，需要用到 JWT 中间件
-	authGroup := baseGroup.Group("/")
-	routes.Auth(authGroup, auth)
-
-	// 用户路由组
-	userGroup := baseGroup.Group("/")
-	routes.User(userGroup, auth)
-
-	// 菜单路由组
-	menuGroup := baseGroup.Group("/")
-	routes.Menu(menuGroup, auth)
-
-	// 其它路由组
+	// 涉及认证鉴权
+	ag := r.Group(common.ApiPrefix)
+	ag.Use(auth.MiddlewareFunc()) // 认证中间件
+	ag.Use(middleware.Casbin)     // 鉴权中间件
+	{
+		routes.User(ag) // 用户路由组
+		routes.Menu(ag) // 菜单路由组
+	}
 
 	// 返回路由引擎
 	return r

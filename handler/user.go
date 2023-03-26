@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"go-web/dto"
+	"go-web/model"
 	"go-web/pkg/response"
 	"go-web/pkg/utools"
 	"go-web/service/mysql_service"
@@ -35,12 +36,18 @@ func GetUserInfoById(ctx *gin.Context) {
 	var resp dto.UserInfoResponse
 	utools.Struct2StructByJson(user, &resp)
 
-	// 完善返回数据
-	//resp.Roles = []string{
-	//	user.Role.Name,
-	//}
-
 	response.SuccessWithData(map[string]interface{}{
 		"userInfo": resp,
 	})
+}
+
+// GetCurrentUserFromContext 从 context 中获取当前用户信息
+func GetCurrentUserFromContext(ctx *gin.Context) (user model.User, err error) {
+	info, exists := ctx.Get("user")
+	if exists {
+		v, _ := info.(map[string]interface{})
+		utools.MapStringInterface2Struct(v, &user)
+		return user, nil
+	}
+	return user, err
 }

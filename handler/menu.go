@@ -1,7 +1,6 @@
 package handler
 
 import (
-	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"go-web/pkg/response"
 	"go-web/pkg/utools"
@@ -43,21 +42,13 @@ func GetRoleMenuTree(ctx *gin.Context) {
 
 // GetCurrentUserMenuTree 获取当前用户的菜单树
 func GetCurrentUserMenuTree(ctx *gin.Context) {
-	// 获取当前用户的角色 Id
-	var roleId uint
-	claim := jwt.ExtractClaims(ctx)
-	v, _ := claim["user"].(map[string]interface{})
-	v1, ok := v["roleId"].(float64)
-	if ok {
-		roleId = uint(v1)
-	}
-
-	// 判断获取 roleId 是否成功
-	if roleId == 0 {
+	// 获取当前用户信息
+	user, err := GetCurrentUserFromContext(ctx)
+	if err != nil {
 		response.FailedWithMessage("获取当前用户的角色 Id 失败")
 		return
 	}
 
 	// 根据角色 Id 查询菜单树
-	GetMenuTreeByRoleId(ctx, roleId)
+	GetMenuTreeByRoleId(ctx, user.Role.Id)
 }

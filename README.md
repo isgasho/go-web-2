@@ -33,6 +33,7 @@
 - [x] Jwt：用户认证, 登入登出一键搞定 [:octocat:](https://github.com/appleboy/gin-jwt)
 - [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
 - [x] Carbon：简单、语义化且对开发人员友好的 datetime 包 [:octocat:](https://github.com/golang-module/carbon)
+- [x] Casbin：一个强大的、高效的开源访问控制框架 [:octocat:](https://casbin.org/zh/docs/overview)
 
 ### 💬 联系我呗
 

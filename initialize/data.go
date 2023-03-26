@@ -158,10 +158,45 @@ func Menus() {
 	}
 }
 
+// 初始化 RBAC 鉴权
+var casbinRules = []model.CasbinRule{
+	{
+		PType:   "p",
+		Keyword: "guest",
+		Path:    "/dashboard",
+		Method:  "GET",
+	},
+	{
+		PType:   "p",
+		Keyword: "guest",
+		Path:    "/user",
+		Method:  "GET",
+	},
+	{
+		PType:   "p",
+		Keyword: "guest",
+		Path:    "/menu/tree",
+		Method:  "GET",
+	},
+}
+
+// CasbinRules 初始化鉴权数据
+func CasbinRules() {
+	for _, rule := range casbinRules {
+		// 查看记录是否存在
+		err := common.DB.Where(rule).First(&rule).Error
+		// 如果记录不存在则添加数据
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			common.DB.Create(&rule)
+		}
+	}
+}
+
 // Data 初始化数据
 func Data() {
-	Roles() // 角色
-	Users() // 用户
-	Menus() // 菜单
+	Roles()       // 角色
+	Users()       // 用户
+	Menus()       // 菜单
+	CasbinRules() // 鉴权
 	os.Exit(0)
 }
