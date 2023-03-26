@@ -46,8 +46,9 @@
 
 ### 🎉 感谢
 
-该项目是参考学习以下项目，然后自己再修修改改而来，感谢这些铁子们 🌹：
+该项目是参考学习以下项目，然后自己再修修改改而来，感谢铁子们 🌹：
 - gin-web [:octocat:](https://github.com/piupuer/gin-web)
+- go-helper [:octocat:](https://github.com/piupuer/go-helper)
 - Go-Vue-Admin [:octocat:](https://github.com/tanxi2019/Go-Vue-Admin)
 
 ### 👍 推荐
